@@ -1,0 +1,170 @@
+@import "tailwindcss";
+/* Self-hosted: the CSP allows fonts from 'self' only. */
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource-variable/geist-mono/wght.css";
+
+@source "../../../../apps/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+/* Registered so tone changes cross-fade. */
+@property --tone {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #ffb162;
+}
+@property --on-tone {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #1b2632;
+}
+/* Registered as an integer so AnimatedNumber can count with a CSS transition. */
+@property --num {
+	syntax: "<integer>";
+	inherits: false;
+	initial-value: 0;
+}
+
+/*
+ * Palette
+ *   Abyssal Anchorfish Blue #1B2632  ground + ink
+ *   Blue Fantastic          #2C3B4D  panels / cards
+ *   Palladian               #EEE9DF  text, light tone
+ *   Oatmeal                 #C9C1B1  muted text, tone
+ *   Burning Flame           #FFB162  primary accent, tone
+ *   Truffle Trouble         #A35139  tone (Palladian text on it)
+ * Shades marked "derived" are mixes of the palette for hover and borders.
+ * The app is dark only, so :root and .dark hold the same values.
+ */
+:root,
+.dark {
+	--radius: 1.75rem;
+
+	--background: #1b2632;
+	--foreground: #eee9df;
+	--card: #2c3b4d;
+	--card-foreground: #eee9df;
+	--popover: #2c3b4d;
+	--popover-foreground: #eee9df;
+	--primary: #ffb162;
+	--primary-foreground: #1b2632;
+	--secondary: #2c3b4d;
+	--secondary-foreground: #eee9df;
+	--muted: #3a4b60; /* derived */
+	--muted-foreground: #c9c1b1;
+	--accent: #3a4b60; /* derived */
+	--accent-foreground: #eee9df;
+	--destructive: #e8957a; /* derived: light truffle */
+	--border: #3e5066; /* derived */
+	--input: #3e5066;
+	--ring: #eee9df;
+
+	--ink: #1b2632;
+	--surface-sunk: #223040; /* derived */
+	--danger-soft: #e8957a;
+
+	--tone-flame: #ffb162;
+	--tone-truffle: #a35139;
+	--tone-oatmeal: #c9c1b1;
+	--tone-palladian: #eee9df;
+
+	/* Text on each tone, all at least 4.5:1. */
+	--on-tone-flame: #1b2632;
+	--on-tone-truffle: #eee9df;
+	--on-tone-oatmeal: #1b2632;
+	--on-tone-palladian: #1b2632;
+
+	/* Tone-colored text on the dark ground or an ink pill, all at least 4.5:1. */
+	--tone-accent-flame: #ffb162;
+	--tone-accent-truffle: #e8957a;
+	--tone-accent-oatmeal: #c9c1b1;
+	--tone-accent-palladian: #eee9df;
+
+	--tone: var(--tone-flame);
+	--on-tone: var(--on-tone-flame);
+	--tone-accent: var(--tone-accent-flame);
+
+	color-scheme: dark;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+
+	--color-ink: var(--ink);
+	--color-surface-sunk: var(--surface-sunk);
+	--color-danger-soft: var(--danger-soft);
+	--color-tone: var(--tone);
+	--color-on-tone: var(--on-tone);
+	--color-tone-accent: var(--tone-accent);
+	--color-tone-flame: var(--tone-flame);
+	--color-tone-truffle: var(--tone-truffle);
+	--color-tone-oatmeal: var(--tone-oatmeal);
+	--color-tone-palladian: var(--tone-palladian);
+
+	--font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "Geist Mono Variable", ui-monospace, monospace;
+	--font-display: "Archivo Variable", "Geist Variable", ui-sans-serif, sans-serif;
+
+	--radius-sm: calc(var(--radius) - 12px);
+	--radius-md: calc(var(--radius) - 8px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--radius-2xl: calc(var(--radius) + 8px);
+
+	--ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Heavy, slightly wide display type: headings, questions, big numbers. */
+@utility font-display-wide {
+	font-family: var(--font-display);
+	font-stretch: 112%;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+/* The number is printed by a CSS counter, so it renders on the server and counts without JavaScript. */
+@utility animated-number {
+	counter-reset: num var(--num);
+	transition: --num 0.8s var(--ease-out-soft);
+	&::after {
+		content: counter(num) attr(data-suffix);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+}
+
+@utility on-tone {
+	background-color: var(--tone);
+	color: var(--on-tone);
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		background-color: var(--background);
+		color: var(--foreground);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+}

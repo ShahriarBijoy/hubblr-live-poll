@@ -1,0 +1,22 @@
+{
+  "name": "poll-request",
+  "private": true,
+  "packageManager": "pnpm@10.17.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @poll-request/web run dev",
+    "build": "pnpm --filter @poll-request/web run build",
+    "preview": "pnpm --filter @poll-request/web run preview",
+    "deploy": "pnpm --filter @poll-request/web run deploy",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "check:slices": "node scripts/check-slices.mjs",
+    "load:votes": "node scripts/load/vote-latency.mjs",
+    "load:sockets": "node scripts/load/socket-fanout.mjs"
+  },
+  "devDependencies": {
+    "ws": "8.22.0"
+  }
+}

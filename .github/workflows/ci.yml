@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check:slices
+      - run: pnpm typecheck
+      - run: pnpm test
+      # Dev dependencies never reach the deployed Worker, so only production deps gate the build.
+      - run: pnpm audit --prod --audit-level high
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Runs before the build, because after a build wrangler reads the generated config. The schema lands before the code.
+      - run: pnpm --filter @poll-request/web exec wrangler d1 migrations apply KPI_DB --remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - run: pnpm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  # Version preview URLs are not generated for Workers that implement a Durable Object,
+  # so each PR gets its own throwaway Worker (and its own PollRoom namespace) instead.
+  preview:
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.action != 'closed'
+      && github.event.pull_request.head.repo.full_name == github.repository
+    needs: check
+    runs-on: ubuntu-latest
+    concurrency:
+      group: preview-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    env:
+      WORKER_NAME: poll-request-pr-${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @poll-request/web exec wrangler d1 migrations apply KPI_DB --remote --env preview
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # The Vite plugin bakes the preview bindings into the build output. wrangler deploy then rejects --env.
+      - run: pnpm run build
+        env:
+          CLOUDFLARE_ENV: preview
+      # wrangler refuses to deploy without VOTER_SECRET. Each preview gets a fresh random one, written to a file and
+      # never printed. Previews hold test data only, so voters of an older preview deploy simply become new voters.
+      - run: >-
+          node -e 'process.stdout.write(JSON.stringify({ VOTER_SECRET: require("node:crypto").randomBytes(32).toString("base64url") }))'
+          > "$RUNNER_TEMP/preview-secrets.json"
+      - run: >-
+          pnpm --filter @poll-request/web exec wrangler deploy --name "$WORKER_NAME"
+          --secrets-file "$RUNNER_TEMP/preview-secrets.json"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_OUTPUT_FILE_PATH: ${{ runner.temp }}/wrangler-output.ndjson
+      - run: |
+          url=$(jq -er 'select(.type == "deploy") | .targets[0]' "$RUNNER_TEMP/wrangler-output.ndjson")
+          echo "### Preview deployed: $url" >> "$GITHUB_STEP_SUMMARY"
+
+  preview-cleanup:
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.action == 'closed'
+      && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    # Shares the preview group so closing a PR cancels an in-flight preview deploy before deleting.
+    concurrency:
+      group: preview-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - run: npx --yes wrangler@4.152.0 delete --name "poll-request-pr-${{ github.event.pull_request.number }}" --force
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

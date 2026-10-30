@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "../../packages/ui/src/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@poll-request/ui/components",
+    "ui": "@poll-request/ui/components",
+    "lib": "@poll-request/ui/lib",
+    "hooks": "@poll-request/ui/hooks",
+    "utils": "@poll-request/ui/lib/utils"
+  }
+}

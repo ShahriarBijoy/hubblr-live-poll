@@ -1,0 +1,39 @@
+{
+  "name": "@poll-request/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../scripts/ensure-dev-vars.mjs && wrangler d1 migrations apply KPI_DB --local && vite dev",
+    "build": "vite build",
+    "preview": "node ../../scripts/ensure-dev-vars.mjs && vite preview",
+    "deploy": "vite build && wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@poll-request/domain": "workspace:*",
+    "@poll-request/ui": "workspace:*",
+    "@tanstack/react-query": "5.104.5",
+    "@tanstack/react-router": "1.170.46",
+    "@tanstack/react-router-ssr-query": "1.167.3",
+    "@tanstack/react-start": "1.169.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.65.0",
+    "@cloudflare/vitest-plugin": "1.4.7",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vitest": "5.0.5",
+    "wrangler": "4.152.0"
+  }
+}
