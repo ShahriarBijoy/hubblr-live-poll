@@ -4,7 +4,7 @@ import { PollComposer, type PollComposerProps } from "../poll-composer"
 import { AppHeader, PageShell, PageSection, PageTitle } from "../poll-surfaces"
 
 /**
- * VIEW 1: create a poll. Props-only: the page owns the request and the navigation.
+ * The create view. It takes props only: the page owns the request and the navigation.
  */
 type CreatePollViewProps = Omit<PollComposerProps, "className" | "defaultValue"> & {
   title: React.ReactNode

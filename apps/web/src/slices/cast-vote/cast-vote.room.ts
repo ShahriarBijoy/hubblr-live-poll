@@ -3,7 +3,7 @@ import type { PollRepository, RoomContext } from "../../poll-room/poll-repositor
 import { hideResults, type VoteViewResult } from "./cast-vote.schema";
 
 // "recorded" and "unchanged" both answer 200. They stay apart because only a recorded vote changes what other
-// viewers see, so S4 broadcasts on "recorded" only.
+// viewers see, so PollRoom broadcasts on "recorded" only.
 export type CastVoteResult =
 	| { kind: "recorded" | "unchanged"; snapshot: PollSnapshot }
 	| { kind: "closed" }
@@ -21,7 +21,7 @@ export function castVoteInRoom(
 	if (stored === null) return { kind: "not-found" };
 	const { poll } = stored;
 
-	// The response goes to a voter who has just voted, and section 6 shows a voter the counts.
+	// The response goes to a voter who has just voted, and a voter may see the counts.
 	function voted(choice: OptionId): PollSnapshot {
 		return repository.snapshot(poll, context, { resultsVisible: true, myOptionId: choice });
 	}

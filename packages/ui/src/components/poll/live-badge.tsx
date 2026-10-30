@@ -5,8 +5,8 @@ import { Lock } from "lucide-react"
 import { cn } from "#lib/utils"
 
 /**
- * "● Live · 128 votes" pill. Map `status` to your realtime transport
- * (SSE / WebSocket / polling) connection state.
+ * The "● Live · 128 votes" pill. `status` is the state of the live
+ * WebSocket connection.
  */
 const badgeVariants = cva(
   "inline-flex h-8 w-fit items-center gap-2 rounded-full pr-3.5 pl-3 text-[13px] font-semibold whitespace-nowrap",
@@ -15,7 +15,7 @@ const badgeVariants = cva(
       surface: {
         /** On a tone card: ink pill, dot in the tone accent. */
         tone: "bg-ink text-foreground [--dot:var(--tone-accent)]",
-        /** On the dark ground / card surface. */
+        /** On the dark ground or the card surface. */
         dark: "bg-muted text-foreground [--dot:var(--tone-flame)]",
       },
     },
@@ -23,7 +23,7 @@ const badgeVariants = cva(
   }
 )
 
-/** `closed` = the voting window ended (results are final). */
+/** `closed` means voting ended and the results are final. */
 type LiveStatus = "live" | "connecting" | "offline" | "closed"
 
 type LiveBadgeProps = React.ComponentProps<"span"> &

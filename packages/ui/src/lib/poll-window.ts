@@ -3,7 +3,7 @@
  * these only pick and print minutes.
  */
 
-/** Slider stops (minutes). Fixed steps keep every value sensible. */
+/** Slider stops, in minutes. Fixed steps keep every value a round number. */
 export const WINDOW_STEPS = [1, 2, 5, 10, 15, 30, 45, 60, 90, 120, 180, 240, 360, 480, 720, 960, 1200, 1440] as const
 
 /** Quick-pick buttons (minutes). Each one is also a slider stop. */
@@ -11,7 +11,7 @@ export const WINDOW_PRESETS = [1, 15, 60, 360, 1440] as const
 
 export const DEFAULT_WINDOW_MINUTES = 60
 
-/** Last stretch where the countdown turns urgent. */
+/** How long before the close the countdown switches to its ending style. */
 export const ENDING_SOON_MS = 60_000
 
 /** Index of the slider stop closest to `minutes`. */
@@ -23,7 +23,7 @@ export function nearestStepIndex(minutes: number): number {
   return best
 }
 
-/** 1 → "1 min", 90 → "1 h 30 min", 1440 → "24 h". */
+/** Minutes as text: 1 is "1 min", 90 is "1 h 30 min", 1440 is "24 h". */
 export function formatWindow(minutes: number): string {
   if (minutes < 60) return `${minutes} min`
   const h = Math.floor(minutes / 60)
@@ -31,7 +31,7 @@ export function formatWindow(minutes: number): string {
   return m ? `${h} h ${m} min` : `${h} h`
 }
 
-/** Countdown text: ≥ 1 h → "5h 12m", else "14:32". Rounds up, so it reads "0:00" exactly at the close. */
+/** Countdown text: "5h 12m" for an hour or more, otherwise "14:32". It rounds up, so it reads "0:00" exactly at the close. */
 export function formatRemaining(ms: number): string {
   const s = Math.max(0, Math.ceil(ms / 1000))
   const h = Math.floor(s / 3600)

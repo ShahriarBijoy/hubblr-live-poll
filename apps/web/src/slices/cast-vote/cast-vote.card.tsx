@@ -4,9 +4,9 @@ import { CLOSED_TEXT, pollCountdown, useServerClock, useShareUrl } from "../../p
 import { voteCountText, useCastVote } from "./cast-vote.form";
 import type { VoteViewSnapshot } from "./cast-vote.schema";
 
-// Apart from the query module, whose server function needs the TanStack Start build, so a test can render the card
-// with a seeded snapshot. The caller owns the navigation after a vote, and the links are plain anchors, so the card
-// needs no router.
+// This file stays apart from the query module, whose server function needs the TanStack Start build, so a test can
+// render the card with a seeded snapshot. The caller owns the navigation after a vote, and the links are plain
+// anchors, so the card needs no router.
 export function VoteCard({
 	pollId,
 	snapshot,

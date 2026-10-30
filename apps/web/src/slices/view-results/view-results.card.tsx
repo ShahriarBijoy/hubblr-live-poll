@@ -4,8 +4,8 @@ import { ResultsView } from "@poll-request/ui/poll/views/results-view";
 import { CLOSED_TEXT, pollCountdown, useServerClock, useShareUrl } from "../../platform/poll-page";
 import { resultRows } from "../../platform/result-rows";
 
-// Apart from the query module, whose server function needs the TanStack Start build, so a test can render the card
-// with a seeded snapshot.
+// This file stays apart from the query module, whose server function needs the TanStack Start build, so a test can
+// render the card with a seeded snapshot.
 export function ResultsCard({
 	snapshot,
 	counts,

@@ -14,9 +14,9 @@ export type VoteDecision =
 	| { kind: "unchanged"; optionId: OptionId }
 	| { kind: "record"; optionId: OptionId };
 
-// The status comes first and from `now`, so a vote at or after closesAt is refused also when no alarm ran, and a
-// closed poll answers "closed" whatever option the voter sent. A vote is final. The same choice again stays "unchanged",
-// so a retry of a vote that reached the server still succeeds.
+// The status is checked first, from `now`. A vote at or after closesAt is refused even when no alarm ran, and a closed
+// poll answers "closed" whatever option the voter sent. A vote is final. The same choice again is "unchanged", so a
+// retry of a vote that reached the server still succeeds.
 export function decideVote(poll: Poll, current: OptionId | null, optionId: OptionId, now: number): VoteDecision {
 	if (pollStatus(poll, now).kind === "closed") return { kind: "closed" };
 	if (!poll.options.some((option) => option.id === optionId)) return { kind: "unknown-option" };

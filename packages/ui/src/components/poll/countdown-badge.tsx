@@ -10,11 +10,11 @@ const R = 6.5
 const C = 2 * Math.PI * R
 
 /**
- * "◔ Closes in 14:32" pill for a tone card.
- *   open    → ink pill, ring in the card tone drains every second
- *   ending  → last minute: colors invert + gentle pulse
- *   closed  → lock pill ("Voting closed", or your own children)
- * Feed it the object from countdownAt() so the page has ONE clock.
+ * The "◔ Closes in 14:32" pill for a tone card.
+ * While open it is an ink pill whose ring, in the card tone, drains every second.
+ * In the last minute its colors invert and it pulses.
+ * Once closed it shows a lock and "Voting closed", or the children you pass.
+ * Pass it the object from countdownAt(), so the page has one clock.
  */
 type CountdownBadgeProps = {
   countdown: Countdown

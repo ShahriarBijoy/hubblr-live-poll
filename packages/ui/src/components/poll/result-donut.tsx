@@ -14,8 +14,8 @@ const C = 2 * Math.PI * R
 const GAP = 3
 
 /**
- * The "simple chart" view: donut + legend, drawn in shades of the text color so it
- * works on any tone. Arcs draw from 0 and re-flow on live updates.
+ * The "simple chart" view: a donut and a legend, drawn in shades of the text color so
+ * it works on any tone. Arcs grow from 0 and redraw on live updates.
  */
 type ResultDonutProps = {
   results: PollResult[]

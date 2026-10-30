@@ -16,8 +16,8 @@ const FILL_MOTION = "duration-700 ease-out-soft motion-reduce:transition-none"
 
 /**
  * One result row: translucent ink track, solid ink fill.
- * The label is drawn twice — ink on the track, light text clipped to
- * the fill — so it flips color exactly at the fill edge.
+ * The label is drawn twice, in ink on the track and in light text clipped
+ * to the fill, so it flips color exactly at the fill edge.
  * When `votes` goes up (live update) a "+1" chip rises and the bar flashes.
  */
 type ResultBarProps = {
@@ -141,14 +141,14 @@ function ResultBar({ label, votes, percent, leading, leadLabel = "Leading", mine
 }
 
 /**
- * All result rows. Works out total + the (unique) leader for you.
- * Order is kept as given — rows never jump around during live updates.
+ * All result rows. It works out the total, and the leader when exactly one answer leads.
+ * The rows keep the order they are given, so they never jump during live updates.
  */
 type ResultListProps = {
   results: PollResult[]
   /** Option id the current visitor voted for. */
   myVoteId?: string
-  /** Poll is closed: leader tag reads "Winner". */
+  /** True once the poll is closed. The leader tag then reads "Winner". */
   final?: boolean
   className?: string
 }

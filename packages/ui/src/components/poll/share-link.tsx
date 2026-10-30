@@ -37,13 +37,13 @@ export function useCopy(ms = 1600) {
 }
 
 /**
- * Black pill with the poll link and a Copy button that morphs to
- * "Copied" (icon rotates in, width animates, tone fill).
+ * Black pill with the poll link and a Copy button. After a copy the button
+ * reads "Copied": its icon rotates in, its width animates, and it fills with the tone.
  */
 type ShareLinkProps = {
   /** Full URL that gets copied. */
   url: string
-  /** Shorter text to show (defaults to url without protocol). */
+  /** Shorter text to show. Defaults to the URL without its protocol. */
   displayUrl?: string
   onCopied?: () => void
   /** The "Copied" fill uses the nearest `--tone` (set by toneStyle on an ancestor). */

@@ -15,7 +15,8 @@ export async function insertOpenSummary(db: D1Database, summary: OpenSummaryColu
 
 export type FinalSummary = Extract<PollSummary, { closedAt: number }>;
 
-// The open columns too, so a lost open row (its write is best effort) is repaired here. A second run writes the same row.
+// Writes the open columns too, so this repairs an open row that was lost (that write is best effort). A second run
+// writes the same row.
 export async function upsertFinalSummary(db: D1Database, summary: FinalSummary): Promise<void> {
 	await db
 		.prepare(

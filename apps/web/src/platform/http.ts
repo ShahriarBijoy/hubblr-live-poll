@@ -4,7 +4,7 @@ export function errorResponse(status: number, code: string, message: string): Re
 	return Response.json({ code, message } satisfies ErrorBody, { status });
 }
 
-// Section 9 of the design: every request body is 4 KB at most.
+// Every request body is 4 KB at most.
 export const MAX_BODY_BYTES = 4096;
 
 export type JsonBody = { kind: "json"; value: unknown } | { kind: "too-large" };

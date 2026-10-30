@@ -27,8 +27,8 @@ export type PingResult = { sqliteTables: number };
 
 const EXPORT_RETRY_MS = 60_000;
 
-// One millisecond per open socket, from 200 ms to 1 s. Each update is one send per socket, all from this one object,
-// so this keeps a crowded poll near 1,000 sends a second up to 1,000 viewers instead of 5 updates times every socket.
+// One millisecond per open socket, between 200 ms and 1 s. This one object sends each update once per socket, so up
+// to 1,000 viewers a crowded poll stays near 1,000 sends a second, instead of 5 updates a second to every socket.
 export function broadcastIntervalMs(viewers: number): number {
 	return Math.min(1_000, Math.max(200, viewers));
 }
@@ -42,9 +42,9 @@ export class PollRoom extends DurableObject<Env> {
 		super(ctx, env);
 		// The runtime answers the client's keepalive itself, so a ping never wakes a hibernating object.
 		this.ctx.setWebSocketAutoResponse(new WebSocketRequestResponsePair("ping", "pong"));
-		// Polls created before S5 have no alarm, and polls created before tones have no tone column. A deploy restarts
-		// every object, so the first request after it adds the column and sets an alarm, and alarm() then schedules the
-		// right time.
+		// Polls created before alarms existed have no alarm, and polls created before tones have no tone column. A deploy
+		// restarts every object, so the first request after it adds the column and sets an alarm, and alarm() then
+		// schedules the right time.
 		void this.ctx.blockConcurrencyWhile(async () => {
 			const repository = pollRepository(this.ctx.storage);
 			repository.addToneColumn();
@@ -97,7 +97,7 @@ export class PollRoom extends DurableObject<Env> {
 		return liveAccessInRoom(pollRepository(this.ctx.storage), voterId, adminTokenHash, this.roomContext());
 	}
 
-	// Section 6. Each step comes from the stored data, so a second run, or a run Cloudflare retries, converges.
+	// Each step comes from the stored data, so a second run, or a run that Cloudflare retries, ends in the same state.
 	override async alarm(): Promise<void> {
 		const repository = pollRepository(this.ctx.storage);
 		for (;;) {

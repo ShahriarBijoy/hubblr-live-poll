@@ -5,7 +5,7 @@ export type Countdown = {
   closed: boolean
   /** Last minute. */
   ending: boolean
-  /** 1 → 0 share of the window left (1 if opensAt is unknown). */
+  /** Share of the window left, from 1 down to 0. It is 1 when opensAt is unknown. */
   fraction: number
   /** "14:32" / "5h 12m" */
   label: string
@@ -15,7 +15,7 @@ export type Countdown = {
 
 /**
  * The countdown at `now`. `closesAt` is null once the poll is closed (by the creator or the timer).
- * The page passes ONE hydration-safe clock in, so the server and the first client render agree.
+ * The page passes in one hydration-safe clock, so the server and the first client render agree.
  */
 export function countdownAt(closesAt: number | null, now: number, opensAt?: number): Countdown {
   const msLeft = closesAt === null ? 0 : Math.max(0, closesAt - now)

@@ -16,8 +16,8 @@ import { SegmentedControl } from "../segmented-control"
 import { useCopy } from "../share-link"
 
 /**
- * VIEW 3: live results.
- * Feed `results` from the realtime source, in the same option order every time.
+ * The live results view.
+ * Pass `results` from the live connection, in the same option order every time.
  * Every change animates: bars move, numbers count, "+1" chips rise, the Leading tag moves.
  * Once `countdown.closed` the view shows final results, and the Leading tag reads Winner.
  */

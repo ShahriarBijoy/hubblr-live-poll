@@ -9,10 +9,10 @@ import { spring } from "#lib/poll-motion"
 export type PollOption = { id: string; label: string }
 
 /**
- * The answers on the vote view. Radix RadioGroup = one tab stop,
- * arrow keys move the selection, screen readers get a real radio group.
- * The black "selected" fill is one motion element (shared layoutId),
- * so it glides from row to row.
+ * The answers on the vote view, on a Radix RadioGroup: the group is one tab stop,
+ * the arrow keys move the selection, and screen readers announce a radio group.
+ * The black "selected" fill is one motion element with a shared layoutId,
+ * so it slides from row to row.
  */
 type VoteOptionGroupProps = {
   options: PollOption[]

@@ -16,7 +16,7 @@ export type PollDraft = {
   question: string
   options: string[]
   tone: Tone
-  /** How long the public link accepts votes, 1–1440. The server sets closes_at from it. */
+  /** How long the public link accepts votes, in minutes from 1 to 1440. The server sets closes_at from it. */
   durationMinutes: number
 }
 
@@ -57,8 +57,8 @@ type PollComposerProps = {
 }
 
 /**
- * The whole "create" view body: tone composer card on the left,
- * live preview + submit on the right. Owns its own form state.
+ * The body of the create view: the tone composer card on the left, and the
+ * live preview and submit button on the right. It owns its form state.
  */
 function PollComposer({
   defaultValue,
@@ -132,7 +132,7 @@ function PollComposer({
       animate="show"
       className={cn("grid grid-cols-1 items-start gap-6 lg:grid-cols-12", className)}
     >
-      {/* ── Composer card ─────────────────────────────── */}
+      {/* Composer card */}
       <motion.section
         variants={riseItem}
         aria-label="Poll composer"
@@ -168,7 +168,7 @@ function PollComposer({
           <legend className="mb-3 flex w-full justify-between text-sm font-semibold text-on-tone/72">
             <span>Answers</span>
             <span>
-              {minOptions}–{maxOptions}
+              {minOptions} to {maxOptions}
             </span>
           </legend>
 
@@ -212,7 +212,7 @@ function PollComposer({
         </div>
       </motion.section>
 
-      {/* ── Preview + submit ──────────────────────────── */}
+      {/* Preview and submit */}
       <motion.aside variants={riseItem} className="flex min-w-0 flex-col gap-4 lg:sticky lg:top-6 lg:col-span-5">
         <PollCard tone={tone} aria-label="Preview" className="gap-4 sm:p-6">
           <PollCardMeta className="min-h-0">

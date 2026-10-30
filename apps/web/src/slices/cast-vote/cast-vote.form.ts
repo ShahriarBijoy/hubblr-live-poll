@@ -10,7 +10,7 @@ import {
 	type VoteViewSnapshot,
 } from "./cast-vote.schema";
 
-// S3's results view will use the ["poll", pollId] prefix too, so one invalidation refreshes both views.
+// The results view uses the ["poll", pollId] prefix too, so one invalidation refreshes both views.
 export function voteViewKey(pollId: string): readonly ["poll", string, "vote-view"] {
 	return ["poll", pollId, "vote-view"];
 }

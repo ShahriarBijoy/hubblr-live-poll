@@ -21,8 +21,8 @@ export type PollView = {
 }
 
 /**
- * VIEW 2: vote. It never receives a count per option, only the total.
- * Once `countdown.closed` the answers lock and the CTA links to the final results.
+ * The vote view. It never receives a count per option, only the total.
+ * Once `countdown.closed` the answers lock and the main button links to the final results.
  * The server still rejects late votes; this is only the UI side.
  *
  * `resultsLink` / `newPollLink` are empty link elements the page passes in,

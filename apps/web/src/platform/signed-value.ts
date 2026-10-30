@@ -2,7 +2,7 @@ import { fromBase64Url, toBase64Url } from "./base64url";
 
 export const MIN_SECRET_LENGTH = 32;
 
-// The purpose is part of the MAC input, so a value signed for one purpose never verifies for another, also when both
+// The purpose is part of the MAC input, so a value signed for one purpose never verifies for another, even when both
 // use the same secret.
 export type SignedPurpose = "voter" | "live-ticket";
 

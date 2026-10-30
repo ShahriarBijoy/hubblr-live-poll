@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 
-// Polls created before S5 have no alarm. A GET wakes each open poll's object, and its constructor sets the alarm.
+// Polls created before alarms existed have no alarm. A GET wakes each open poll's object, and its constructor sets the alarm.
 // Usage: node scripts/backfill-alarms.mjs <baseUrl> [wrangler flags, such as --env preview]
 const [baseUrl, ...wranglerFlags] = process.argv.slice(2);
 if (baseUrl === undefined) {

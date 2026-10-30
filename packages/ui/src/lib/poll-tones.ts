@@ -22,9 +22,9 @@ export function isTone(value: unknown): value is Tone {
 
 /**
  * Sets the three tone variables on an element. Spread into `style`.
- *   --tone         card fill            → bg-tone
- *   --on-tone      text/icons ON a tone → text-on-tone
- *   --tone-accent  tone-colored text on the dark ground or an ink pill → text-tone-accent
+ *   --tone         card fill, used by bg-tone
+ *   --on-tone      text and icons on a tone, used by text-on-tone
+ *   --tone-accent  tone-colored text on the dark ground or an ink pill, used by text-tone-accent
  */
 export function toneStyle(tone: Tone = "flame", style?: CSSProperties): CSSProperties {
   return {

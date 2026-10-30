@@ -7,13 +7,13 @@ import { WINDOW_PRESETS, WINDOW_STEPS, formatClosingTime, formatWindow, nearestS
 import { SegmentedControl } from "./segmented-control"
 
 /**
- * "How long does the link take votes?" (1 min to 24 h).
- * Quick picks (sliding pill) + a slider over fixed stops for fine-tuning.
- * Value is plain minutes; the server turns it into closes_at.
+ * The "How long does the link take votes?" control, from 1 min to 24 h.
+ * Quick picks with a sliding pill, and a slider over fixed stops for finer choices.
+ * The value is in minutes; the server turns it into closes_at.
  * The fill uses the nearest `--tone`.
  */
 type WindowPickerProps = {
-  /** Minutes (1–1440). */
+  /** Minutes, from 1 to 1440. */
   value: number
   onValueChange: (minutes: number) => void
   className?: string

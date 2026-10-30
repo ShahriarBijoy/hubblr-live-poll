@@ -3,7 +3,7 @@ import { adminTokenOf, hashAdminToken } from "../../platform/admin-token";
 import { errorResponse } from "../../platform/http";
 import { clientIp, isRateLimited, rateLimitedResponse } from "../../platform/rate-limit";
 
-// Section 16 text. Other slices have the same constant, and slices cannot import each other.
+// Other slices repeat this message, because slices cannot import each other.
 const POLL_NOT_FOUND_MESSAGE = "This poll does not exist. Create a new one?";
 
 export type ClosePollDeps = { env: Pick<Env, "POLL_ROOM" | "ADMIN_LIMITER"> };

@@ -4,7 +4,7 @@ import { errorResponse } from "../../platform/http";
 import { voterIdOf } from "../../platform/voter-cookie";
 import { issueLiveTicket, verifyLiveTicket } from "./live-ticket";
 
-// Section 16 text. Other slices have the same constants, and slices cannot import each other.
+// Other slices repeat these messages, because slices cannot import each other.
 const POLL_NOT_FOUND_MESSAGE = "This poll does not exist. Create a new one?";
 const POLL_CLOSED_MESSAGE = "This poll is closed. Here are the final results.";
 const VOTE_FIRST_MESSAGE = "Vote first to see live results.";

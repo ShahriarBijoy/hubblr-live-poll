@@ -7,8 +7,8 @@ import { cn } from "#lib/utils"
 
 /**
  * shadcn Button, restyled for the poll UI.
- * Same API as shadcn (variant, size, asChild) plus `loading`.
- * New variants: `ink` and `soft` are for use ON a tone card.
+ * Same API as shadcn (variant, size, asChild), plus `loading`.
+ * The added `ink` and `soft` variants are for use on a tone card.
  */
 const buttonVariants = cva(
   [
@@ -22,12 +22,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        /** Burning Flame pill. The main call to action on the dark ground (CREATE POLL). */
+        /** Burning Flame pill for the main action on the dark ground, such as the create button. */
         default:
           "bg-primary text-primary-foreground font-bold hover:bg-primary/90",
-        /** Abyssal pill on a tone card (CAST VOTE). */
+        /** Abyssal pill on a tone card, such as the vote button. */
         ink: "bg-ink text-foreground font-bold hover:bg-ink/90 focus-visible:outline-on-tone",
-        /** Translucent ink on a tone card ("Write comment" style). */
+        /** Translucent ink on a tone card. */
         soft: "bg-ink/14 text-on-tone hover:bg-ink/22 focus-visible:outline-on-tone",
         /** Hairline pill on a tone card (Share). */
         "tone-outline": "border-[1.5px] border-on-tone/35 bg-transparent text-on-tone hover:bg-ink/8 focus-visible:outline-on-tone",

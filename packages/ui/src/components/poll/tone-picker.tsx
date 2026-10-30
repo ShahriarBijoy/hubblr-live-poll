@@ -3,7 +3,7 @@ import { RadioGroup } from "radix-ui"
 import { cn } from "#lib/utils"
 import { TONES, TONE_LABELS, isTone, type Tone } from "#lib/poll-tones"
 
-/** Row of round swatches. Radix RadioGroup: arrow keys move + select. */
+/** Row of round swatches on a Radix RadioGroup, so an arrow key moves to the next swatch and selects it. */
 type TonePickerProps = {
   value: Tone
   onValueChange: (tone: Tone) => void

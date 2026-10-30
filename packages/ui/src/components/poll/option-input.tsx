@@ -8,10 +8,10 @@ import { cn } from "#lib/utils"
  * numbered tone dot, a text input and a remove button.
  */
 type OptionInputProps = Omit<React.ComponentProps<"input">, "size"> & {
-  /** 0-based; shown as index + 1. */
+  /** Zero-based. The row shows index + 1. */
   index: number
   onRemove?: () => void
-  /** False disables the remove button (e.g. at the 2-answer minimum). */
+  /** False disables the remove button, for example at the 2-answer minimum. */
   removable?: boolean
   /** Message under the row. */
   error?: string

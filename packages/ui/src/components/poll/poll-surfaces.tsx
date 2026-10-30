@@ -49,7 +49,7 @@ function PageTitle({ title, description, className }: { title: React.ReactNode; 
   )
 }
 
-/** Page container + staggered entrance for its direct <PageSection> children. */
+/** Page container that staggers the entrance of its direct <PageSection> children. */
 function PageShell({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
     <motion.main
@@ -68,7 +68,7 @@ function PageSection({ className, ...props }: React.ComponentProps<typeof motion
   return <motion.div variants={riseItem} className={className} {...props} />
 }
 
-/** Two-column view grid: card (7) + side column (5). Stacks below lg. */
+/** Two-column view grid: the card takes 7 columns and the side column 5. It stacks below the lg breakpoint. */
 function ViewGrid({ className, ...props }: React.ComponentProps<"div">) {
   return <div className={cn("grid grid-cols-1 items-start gap-6 lg:grid-cols-12", className)} {...props} />
 }
@@ -103,7 +103,7 @@ function StatTile({
   )
 }
 
-/** Empty / not-found / error state. Dashed outline card. */
+/** Dashed outline card for an empty, not-found, or error state. */
 function PollState({
   icon,
   title,

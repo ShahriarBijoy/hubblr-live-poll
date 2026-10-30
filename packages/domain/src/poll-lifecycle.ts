@@ -18,7 +18,7 @@ export function statusAt(status: PollStatus, now: number): PollStatus {
 	return status;
 }
 
-// Section 6: the poll data stays seven days after the close, then the alarm deletes it.
+// The poll data stays seven days after the close, then the alarm deletes it.
 export const RETENTION_MS = 7 * 86_400_000;
 
 export type AlarmStep = { kind: "wait"; until: number } | { kind: "export" } | { kind: "delete" };

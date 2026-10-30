@@ -2,7 +2,7 @@ import { AdminToken, PollId, type PollSnapshot } from "@poll-request/domain";
 import { queryOptions } from "@tanstack/react-query";
 import { RATE_LIMITED_MESSAGE } from "../../platform/rate-limit";
 
-// Section 16 text. Other slices have the same constant, and slices cannot import each other.
+// Other slices repeat this message, because slices cannot import each other.
 const POLL_NOT_FOUND_MESSAGE = "This poll does not exist. Create a new one?";
 
 // `authorization` is the Authorization header value. The token stays in memory and in the fragment only.

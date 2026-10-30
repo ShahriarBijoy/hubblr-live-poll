@@ -7,9 +7,9 @@ import { cn } from "#lib/utils"
 import { spring } from "#lib/poll-motion"
 
 /**
- * Pill segmented control (Hot / Best / Controversial, Bars / Chart …).
- * Radix ToggleGroup underneath: roving focus, arrow keys, aria-pressed.
- * The active background is ONE motion element with a shared layoutId,
+ * Pill segmented control, such as Bars / Chart on the results card.
+ * It is a Radix ToggleGroup, which gives roving focus, arrow keys and aria-pressed.
+ * The active background is one motion element with a shared layoutId,
  * so it slides between items instead of blinking.
  */
 const rootVariants = cva("relative inline-flex w-fit items-center gap-1 rounded-full p-1", {
@@ -17,7 +17,7 @@ const rootVariants = cva("relative inline-flex w-fit items-center gap-1 rounded-
     variant: {
       /** On the black ground. */
       dark: "bg-background",
-      /** On the card surface (#181817). */
+      /** On the card surface. */
       card: "bg-background/60",
       /** On a tone card. */
       tone: "bg-ink/14",

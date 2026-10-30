@@ -10,9 +10,9 @@ export const spring = {
   enter: { type: "spring", duration: 0.4, bounce: 0 } satisfies Transition,
   /** Pills that slide between items (segmented control, selected answer). */
   glide: { type: "spring", stiffness: 500, damping: 38 } satisfies Transition,
-  /** Small things that pop in (check marks, "Leading" tag). A little bounce, no wobble. */
+  /** Small things that pop in, such as check marks and the "Leading" tag, with a small bounce. */
   pop: { type: "spring", duration: 0.3, bounce: 0.15 } satisfies Transition,
-  /** Result bar fill + counters. Soft so live updates feel calm. */
+  /** Result bar fill and counters. A soft spring, so a live update eases in instead of jumping. */
   bar: { type: "spring", stiffness: 120, damping: 22, mass: 1 } satisfies Transition,
   /** List reflow when answers are added or removed. */
   layout: { type: "spring", stiffness: 420, damping: 36 } satisfies Transition,
