@@ -14,7 +14,8 @@
     "test": "pnpm -r run test",
     "check:slices": "node scripts/check-slices.mjs",
     "load:votes": "node scripts/load/vote-latency.mjs",
-    "load:sockets": "node scripts/load/socket-fanout.mjs"
+    "load:sockets": "node scripts/load/socket-fanout.mjs",
+    "demo:votes": "node scripts/demo/live-votes.mjs"
   },
   "devDependencies": {
     "ws": "8.22.0"

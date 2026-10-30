@@ -62,6 +62,7 @@ The repo also has a [CLAUDE.md](CLAUDE.md) that explains the code to an agent.
 | `pnpm typecheck` | Checks the TypeScript types |
 | `pnpm check:slices` | Checks that the code folders follow their rules |
 | `pnpm build` | Builds the app for production |
+| `pnpm demo:votes <url>` | Casts votes one by one on a poll, so you can watch the results update live |
 
 ## Tech stack
 
